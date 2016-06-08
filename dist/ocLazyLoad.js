@@ -817,7 +817,7 @@
                 anchor = $window.document.getElementsByTagName('head')[0] || $window.document.getElementsByTagName('body')[0];
             
             if(angular.isObject($delegate._$params)) {
-                cacheVersion = $delegate._$params.version;
+                cacheVersion = $delegate._$params.cacheVersion;
             }
 
             
