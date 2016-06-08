@@ -34,7 +34,7 @@
         },
             debug = false,
             events = false,
-            cacheVersion = '',
+            params = {},
             moduleCache = [],
             modulePromises = {};
 
@@ -390,7 +390,7 @@
 
             return {
                 _broadcast: broadcast,
-
+                _$params: params,
                 _$log: $log,
 
                 /**
@@ -810,10 +810,16 @@
 
     angular.module('oc.lazyLoad').config(["$provide", function ($provide) {
         $provide.decorator('$ocLazyLoad', ["$delegate", "$q", "$window", "$interval", function ($delegate, $q, $window, $interval) {
-            var uaCssChecked = false,
+            var cacheVersion = new Date().getTime(),
+                uaCssChecked = false,
                 useCssLoadPatch = false,
                 anchor = $window.document.getElementsByTagName('head')[0] || $window.document.getElementsByTagName('body')[0];
+            
+            if(angular.isObject($delegate._$params)) {
+                cacheVersion = $delegate._$params.version;
+            }
 
+            
             /**
              * Load a js/css file
              * @param type
@@ -828,7 +834,7 @@
                     loaded,
                     filesCache = $delegate._getFilesCache(),
                     cacheBuster = function cacheBuster(url) {
-                    /*var dc = new Date().getTime();*/
+                  
                     var dc = cacheVersion;
                     if (url.indexOf('?') >= 0) {
                         if (url.substring(0, url.length - 1) === '&') {
