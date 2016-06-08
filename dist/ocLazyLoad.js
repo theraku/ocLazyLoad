@@ -810,7 +810,7 @@
 
     angular.module('oc.lazyLoad').config(["$provide", function ($provide) {
         $provide.decorator('$ocLazyLoad', ["$delegate", "$q", "$window", "$interval", function ($delegate, $q, $window, $interval) {
-            var cacheVersion = new Date().getTime(),
+            var cacheVersion,
                 uaCssChecked = false,
                 useCssLoadPatch = false,
                 anchor = $window.document.getElementsByTagName('head')[0] || $window.document.getElementsByTagName('body')[0];
@@ -835,7 +835,7 @@
                     filesCache = $delegate._getFilesCache(),
                     cacheBuster = function cacheBuster(url) {
                   
-                    var dc = cacheVersion;
+                    var dc = params.cache === false || !cacheVersion ? cacheVersion : new Date().getTime();
                     if (url.indexOf('?') >= 0) {
                         if (url.substring(0, url.length - 1) === '&') {
                             return url + '_dc=' + dc;
