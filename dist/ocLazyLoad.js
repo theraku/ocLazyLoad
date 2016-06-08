@@ -45,6 +45,7 @@
         };
 
         this.config = function (config) {
+            params = config;
             // If we want to define modules configs
             if (angular.isDefined(config.modules)) {
                 if (angular.isArray(config.modules)) {
