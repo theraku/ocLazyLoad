@@ -34,6 +34,7 @@
         },
             debug = false,
             events = false,
+            cacheVersion = '',
             moduleCache = [],
             modulePromises = {};
 
@@ -821,12 +822,14 @@
              * @returns promise
              */
             $delegate.buildElement = function buildElement(type, path, params) {
+                params.cache = false;
                 var deferred = $q.defer(),
                     el,
                     loaded,
                     filesCache = $delegate._getFilesCache(),
                     cacheBuster = function cacheBuster(url) {
-                    var dc = new Date().getTime();
+                    /*var dc = new Date().getTime();*/
+                    var dc = cacheVersion;
                     if (url.indexOf('?') >= 0) {
                         if (url.substring(0, url.length - 1) === '&') {
                             return url + '_dc=' + dc;
